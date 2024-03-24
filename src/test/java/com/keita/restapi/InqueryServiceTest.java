@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.keita.restapi.exception.InqueryNotFoundException;
 import com.keita.restapi.model.Inquery;
+import com.keita.restapi.model.Item;
 import com.keita.restapi.repository.InqueryRepository;
 import com.keita.restapi.service.InqueryServiceImpl;
 
@@ -33,7 +34,7 @@ public class InqueryServiceTest {
 
     @Test
     public void testGetAllInqueries() {
-        //Initializing list of inqueries and get all of it.
+        //Initializing list of inqueries and get all of it
         List<Inquery> expectedInqueries = new ArrayList<>();
         expectedInqueries.add(new Inquery(1L, "Name1", "email1@example.com", "Message1", null, null));
         expectedInqueries.add(new Inquery(2L, "Name2", "email2@example.com", "Message2", null, null));
@@ -46,12 +47,12 @@ public class InqueryServiceTest {
         //Assert expectedInqueries match the return list
         assertEquals(expectedInqueries, actualInqueries);
         //Assert expectedInqueries size is 2
-        assertEquals(expectedInqueries.size(), 2);
+        assertEquals(2, expectedInqueries.size());
     }
 
     @Test
     public void testGetInquery_ExistingId() {
-        //Initializing list of inqueries and get all of it.
+        //Initializing list of inqueries and get all of it
         List<Inquery> expectedInqueries = new ArrayList<>();
         expectedInqueries.add(new Inquery(1L, "Name1", "email1@example.com", "Message1", null, null));
         expectedInqueries.add(new Inquery(2L, "Name2", "email2@example.com", "Message2", null, null));
@@ -71,7 +72,7 @@ public class InqueryServiceTest {
 
     @Test
     public void testGetInquery_NonExistingId() {
-        //Initializing list of inqueries and get all of it.
+        //Creating mock Inquery objects
         List<Inquery> expectedInqueries = new ArrayList<>();
         expectedInqueries.add(new Inquery(1L, "Name1", "email1@example.com", "Message1", null, null));
         expectedInqueries.add(new Inquery(2L, "Name2", "email2@example.com", "Message2", null, null));
@@ -86,5 +87,40 @@ public class InqueryServiceTest {
 
         // Verify that the repository method was called with the correct ID
         verify(inqueryRepositoryMock).findById(3L);
+    }
+
+    @Test
+    public void testGetInqueryByItemId_Existing() {
+        // Create a mock Item object
+        Item item = new Item(1L, "Shoes", null, "This is a pair of shoes", null);
+
+        // Create a mock Inquery object with the Item object above
+        Inquery expectedInquery = new Inquery(1L, "Name1", "email1@example.com", "Message1", null, item);
+
+        // Mock behavior of the repository to return the expected Inquery object
+        when(inqueryRepositoryMock.findByItemId(1L)).thenReturn(Optional.of(expectedInquery));
+
+        // Call inqueryService.
+        Inquery actualInquery = inqueryService.getInqueryByItemId(1L);
+
+        // Verify response with item id
+        verify(inqueryRepositoryMock).findByItemId(1L);
+
+        // Assert that the returned Inquery object matches expected one
+        assertEquals(expectedInquery, actualInquery);
+    }
+
+    @Test
+    public void testGetInqueryByItemId_NonExisting() {
+        // Mock the behavior of the repository to return an empty optional
+        when(inqueryRepositoryMock.findByItemId(2L)).thenReturn(Optional.empty());
+
+        // Call the service and expect an exception
+        assertThrows(InqueryNotFoundException.class, () -> {
+            inqueryService.getInqueryByItemId(2L);
+        });
+
+        // Verify that the repository was called with the correct item ID
+        verify(inqueryRepositoryMock).findByItemId(2L);
     }
 }

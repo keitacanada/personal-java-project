@@ -9,4 +9,5 @@ public interface InqueryService {
     //Inquery getInqueryById(Long inqueryId);
     List<Inquery> getAllInqueries();
     Inquery getInquery(Long inqueryId);
+    Inquery getInqueryByItemId(Long itemId);
 }
