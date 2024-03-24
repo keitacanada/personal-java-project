@@ -1,6 +1,9 @@
 package com.keita.restapi.model;
 
+import java.util.Date;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -38,6 +41,9 @@ public class Inquery {
 
     private String message;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -46,5 +52,4 @@ public class Inquery {
         inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id")
     )
     private Set<Item> item;
-
 }
