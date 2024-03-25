@@ -23,11 +23,13 @@ public class InqueryServiceImpl implements InqueryService {
 
     @Override
     public List<Inquery> getAllInqueries() {
+        // get all Inquery objeccts
         return (List<Inquery>) inqueryRepository.findAll();
     }
 
     @Override
     public Inquery getInquery(Long inqueryId) {
+        // get inquery object by id. Create exception if it doesn't exist
         Optional<Inquery> potentialInquery = inqueryRepository.findById(inqueryId);
 
         if(!potentialInquery.isPresent()) {
@@ -39,7 +41,7 @@ public class InqueryServiceImpl implements InqueryService {
 
     @Override
     public Inquery getInqueryByItemId(Long itemId) {
-        //Get Inquiry by item id
+        // Get inquery object by item id. Create exception if it doesn't exist
         Optional<Inquery> potentialInquery = inqueryRepository.findByItemId(itemId);
         if (!potentialInquery.isPresent()) {
             throw new InqueryNotFoundException("Inquery for item ID " + itemId + " isn't found");
