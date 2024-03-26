@@ -6,7 +6,7 @@ import com.keita.restapi.model.Inquery;
 import com.keita.restapi.model.Item;
 
 public interface ItemService {
-    Item getItem(Long inqueryId);
+    Item getItem(Long itemId);
     List<Item> getAllItems();
 
 }
