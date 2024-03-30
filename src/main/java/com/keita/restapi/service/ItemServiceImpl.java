@@ -30,4 +30,13 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getAllItems() {
         return (List<Item>) itemRepository.findAll();
     }
+
+    @Override
+    public Item getItemByName(String name) {
+        Optional<Item> potentialItem = itemRepository.findByName(name);
+    if (!potentialItem.isPresent()) {
+        throw new ItemNotFoundException("Item with name " + name + " isn't found");
+    }
+    return potentialItem.get();
+    }
 }

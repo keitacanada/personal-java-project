@@ -29,7 +29,7 @@ public class Inquery {
     private Long id;
 
     @NotBlank(message = "Your name cannot be blank")
-    @Size(min=4, max=20, message="Name should be 4 to 50 characters")
+    @Size(min=4, max=20, message="Name should be 4 to 20 characters")
     private String name;
 
     @Email

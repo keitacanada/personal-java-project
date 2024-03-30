@@ -78,5 +78,32 @@ public class ItemServiceTest {
 
     }
 
+    @Test
+    public void testGetItemByName_ExistingName() {
+        // Create Item name to search for
+        String itemName = "Shoes";
+        Item expectedItem = new Item(1L, "shoes", null, "Good condition", null);
+
+        when(itemRepositoryMock.findByName(itemName)).thenReturn(Optional.of(expectedItem));
+        Item actualItem = itemService.getItemByName(itemName);
+
+        verify(itemRepositoryMock).findByName(itemName);
+
+        assertEquals(expectedItem, actualItem);
+    }
+
+    @Test
+    public void testGetItemByName_NonExistingName() {
+        // Create Item name which doesn't exist
+        String itemName = "NonExisting";
+
+        when(itemRepositoryMock.findByName(itemName)).thenReturn(Optional.empty());
+
+        assertThrows(ItemNotFoundException.class, () -> {
+            itemService.getItemByName(itemName);
+        });
+
+        verify(itemRepositoryMock).findByName(itemName);
+    }
 
 }
