@@ -39,4 +39,11 @@ public class ItemServiceImpl implements ItemService {
     }
     return potentialItem.get();
     }
+
+    @Override
+    public Item saveItem(Item item) {
+        return itemRepository.save(item);
+    }
+
+
 }

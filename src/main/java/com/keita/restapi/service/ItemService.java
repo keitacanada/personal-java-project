@@ -8,4 +8,5 @@ public interface ItemService {
     Item getItem(Long itemId);
     List<Item> getAllItems();
     Item getItemByName(String name);
+    Item saveItem(Item item);
 }
