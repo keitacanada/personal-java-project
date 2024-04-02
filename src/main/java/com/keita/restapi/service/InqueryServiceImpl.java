@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.keita.restapi.exception.InqueryNotFoundException;
 import com.keita.restapi.model.Inquery;
+import com.keita.restapi.model.Item;
 import com.keita.restapi.repository.InqueryRepository;
 import com.keita.restapi.repository.ItemRepository;
 
@@ -18,6 +19,7 @@ public class InqueryServiceImpl implements InqueryService {
 
     @Autowired
     private InqueryRepository inqueryRepository;
+
     @Autowired
     private ItemRepository itemRepository;
 
@@ -49,4 +51,10 @@ public class InqueryServiceImpl implements InqueryService {
         return potentialInquery.get();
     }
 
+    @Override
+    public Inquery saveInquery(Inquery inquery, Long itemId) {
+        Item item = itemRepository.findById(itemId).get();
+        inquery.setItem(item);
+        return inqueryRepository.save(inquery);
+    }
 }

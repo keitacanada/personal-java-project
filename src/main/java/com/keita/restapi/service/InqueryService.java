@@ -1,7 +1,6 @@
 package com.keita.restapi.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.keita.restapi.model.Inquery;
 
@@ -10,4 +9,6 @@ public interface InqueryService {
     List<Inquery> getAllInqueries();
     Inquery getInquery(Long inqueryId);
     Inquery getInqueryByItemId(Long itemId);
+    Inquery saveInquery(Inquery inquery, Long itemId);
+
 }
