@@ -106,4 +106,39 @@ public class ItemServiceTest {
         verify(itemRepositoryMock).findByName(itemName);
     }
 
+    @Test
+    public void testUpdateItem_ExistingId() {
+        // Create an item object
+        Item targetItem = new Item(1L, "shoes", null, "Good condition", null);
+
+        String newTargetItemName = "shooooooes";
+        String newTargetItemDescription = "Look great!";
+
+        targetItem.setName(newTargetItemName);
+        targetItem.setDescription(newTargetItemDescription);
+
+        when(itemRepositoryMock.findById(1L)).thenReturn(Optional.of(targetItem));
+        when(itemRepositoryMock.save(targetItem)).thenReturn(targetItem);
+
+        Item updatedItem = itemService.updateItem(1L, targetItem);
+
+        verify(itemRepositoryMock).findById(1L);
+
+        assertEquals(newTargetItemName, updatedItem.getName());
+        assertEquals(newTargetItemDescription, updatedItem.getDescription());
+
+    }
+
+    @Test
+    public void testUpdateItem_NonExistingId() {
+        // Not prepare mock data and try to update an item object with id 1L
+        when(itemRepositoryMock.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ItemNotFoundException.class, () -> {
+            itemService.updateItem(1L, new Item());
+        });
+
+        verify(itemRepositoryMock).findById(1L);
+
+    }
 }

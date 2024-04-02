@@ -45,5 +45,30 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.save(item);
     }
 
+    @Override
+    public Item updateItem(Long itemId, Item updatedItem) {
+        Optional<Item> potentialItem = itemRepository.findById(itemId);
+        if (!potentialItem.isPresent()) {
+            throw new ItemNotFoundException("Item with ID " + itemId + " isn't found");
+        }
+
+        Item existingItem = potentialItem.get();
+        existingItem.setName(updatedItem.getName());
+        existingItem.setImage(updatedItem.getImage());
+        existingItem.setDescription(updatedItem.getDescription());
+
+        return itemRepository.save(existingItem);
+    }
+
+    @Override
+    public void deleteItem(Long itemId) {
+        Optional<Item> potentialItem = itemRepository.findById(itemId);
+        if (!potentialItem.isPresent()) {
+            throw new ItemNotFoundException("Item with ID " + itemId + " isn't found");
+        }
+        itemRepository.deleteById(itemId);
+    }
+
+
 
 }

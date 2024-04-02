@@ -9,4 +9,6 @@ public interface ItemService {
     List<Item> getAllItems();
     Item getItemByName(String name);
     Item saveItem(Item item);
+    Item updateItem(Long itemId, Item updatedItem);
+    void deleteItem(Long itemId);
 }
