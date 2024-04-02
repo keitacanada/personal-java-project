@@ -2,6 +2,7 @@ package com.keita.restapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -140,5 +141,20 @@ public class ItemServiceTest {
 
         verify(itemRepositoryMock).findById(1L);
 
+    }
+
+    @Test
+    public void testDeleteItem() {
+        // Create an Item object to delete
+        Item deleteItem = new Item(1L, "shoes", null, "Good condition", null);
+
+        when(itemRepositoryMock.findById(1L)).thenReturn(Optional.of(deleteItem));
+
+        doNothing().when(itemRepositoryMock).deleteById(1L);
+
+        itemService.deleteItem(1L);
+
+        verify(itemRepositoryMock).findById(1L);
+        verify(itemRepositoryMock).deleteById(1L);
     }
 }

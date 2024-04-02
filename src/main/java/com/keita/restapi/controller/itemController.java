@@ -34,6 +34,11 @@ public class itemController {
         return new ResponseEntity<>(itemService.getItem(itemId), HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Item>> getAllItems() {
+        return new ResponseEntity<>(itemService.getAllItems(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Item> createItem(@Valid @RequestBody Item item) {
         // Create a new item
