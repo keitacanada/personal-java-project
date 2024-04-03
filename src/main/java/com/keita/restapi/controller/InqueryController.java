@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.keita.restapi.model.Inquery;
-import com.keita.restapi.model.Item;
 import com.keita.restapi.service.InqueryService;
 
 import jakarta.validation.Valid;

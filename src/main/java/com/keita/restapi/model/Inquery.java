@@ -1,7 +1,9 @@
 package com.keita.restapi.model;
 
 import java.util.Date;
+import java.util.Optional;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
@@ -37,6 +39,7 @@ public class Inquery {
 
     private String message;
 
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 

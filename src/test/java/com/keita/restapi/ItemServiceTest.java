@@ -34,8 +34,8 @@ public class ItemServiceTest {
     public void TestGetAllItems() {
         // Create Item objects and insert into arraylist
         List<Item> items = new ArrayList<>();
-        items.add(new Item(1L, "shoes", null, "Good condition", null));
-        items.add(new Item(2L, "shirts", null, "nice condition", null));
+        items.add(new Item(1L, "shoes", null, "Good condition", null, null));
+        items.add(new Item(2L, "shirts", null, "nice condition", null, null));
 
         when(itemRepositoryMock.findAll()).thenReturn(items);
 
@@ -50,8 +50,8 @@ public class ItemServiceTest {
     public void testGetItem_ExistingId() {
         // Create Item objects and insert into arraylist
         List<Item> items = new ArrayList<>();
-        items.add(new Item(1L, "shoes", null, "Good condition", null));
-        items.add(new Item(2L, "shirts", null, "nice condition", null));
+        items.add(new Item(1L, "shoes", null, "Good condition", null, null));
+        items.add(new Item(2L, "shirts", null, "nice condition", null, null));
 
         Item expectedItem = items.get(0);
 
@@ -66,8 +66,8 @@ public class ItemServiceTest {
     public void testGetItem_NonExistingId() {
         // Create Item objects and insert into arraylist
         List<Item> items = new ArrayList<>();
-        items.add(new Item(1L, "shoes", null, "Good condition", null));
-        items.add(new Item(2L, "shirts", null, "nice condition", null));
+        items.add(new Item(1L, "shoes", null, "Good condition", null, null));
+        items.add(new Item(2L, "shirts", null, "nice condition", null, null));
 
         // call non-existing id of Item object
         when(itemRepositoryMock.findById(3L)).thenReturn(Optional.empty());
@@ -83,7 +83,7 @@ public class ItemServiceTest {
     public void testGetItemByName_ExistingName() {
         // Create Item name to search for
         String itemName = "Shoes";
-        Item expectedItem = new Item(1L, "shoes", null, "Good condition", null);
+        Item expectedItem = new Item(1L, "shoes", null, "Good condition", null, null);
 
         when(itemRepositoryMock.findByName(itemName)).thenReturn(Optional.of(expectedItem));
         Item actualItem = itemService.getItemByName(itemName);
@@ -110,7 +110,7 @@ public class ItemServiceTest {
     @Test
     public void testUpdateItem_ExistingId() {
         // Create an item object
-        Item targetItem = new Item(1L, "shoes", null, "Good condition", null);
+        Item targetItem = new Item(1L, "shoes", null, "Good condition", null, null);
 
         String newTargetItemName = "shooooooes";
         String newTargetItemDescription = "Look great!";
@@ -146,7 +146,7 @@ public class ItemServiceTest {
     @Test
     public void testDeleteItem() {
         // Create an Item object to delete
-        Item deleteItem = new Item(1L, "shoes", null, "Good condition", null);
+        Item deleteItem = new Item(1L, "shoes", null, "Good condition", null, null);
 
         when(itemRepositoryMock.findById(1L)).thenReturn(Optional.of(deleteItem));
 

@@ -1,14 +1,18 @@
 package com.keita.restapi.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.keita.restapi.exception.InqueryNotFoundException;
+import com.keita.restapi.exception.ItemNotFoundException;
 import com.keita.restapi.model.Inquery;
 import com.keita.restapi.model.Item;
 import com.keita.restapi.repository.InqueryRepository;
@@ -55,8 +59,13 @@ public class InqueryServiceImpl implements InqueryService {
 
     @Override
     public Inquery saveInquery(Inquery inquery, Long itemId) {
-        Item item = itemRepository.findById(itemId).get();
-        inquery.setItem(item);
+        Optional<Item> targetItem = itemRepository.findById(itemId);
+        if(!targetItem.isPresent()) {
+            throw new ItemNotFoundException("Item with id: " + itemId + " isn't found");
+        }
+
+        inquery.setItem(targetItem.get());
         return inqueryRepository.save(inquery);
     }
+
 }

@@ -1,6 +1,10 @@
 package com.keita.restapi.model;
 
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,6 +34,10 @@ public class Item {
 
     private String image;
     private String description;
+
+    @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date creationDate;
 
     @JsonIgnore
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
