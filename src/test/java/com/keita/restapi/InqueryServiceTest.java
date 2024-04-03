@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +52,48 @@ public class InqueryServiceTest {
     }
 
     @Test
+    public void getInqueriesByItemId() {
+       // create a sample item object
+       Long sampleItemId = 1L;
+       Item sampleItem = new Item(sampleItemId, "Test item", "image", "This is description", new ArrayList<>());
+
+       // create list of inqueries
+       List<Inquery> expectedInqueries = new ArrayList<>();
+       expectedInqueries.add(new Inquery(1L, "Name1", "email1@example.com", "Message1", null, sampleItem));
+       expectedInqueries.add(new Inquery(2L, "Name2", "email2@example.com", "Message2", null, sampleItem));
+
+       when(inqueryRepositoryMock.findAllByItemId(sampleItemId)).thenReturn(expectedInqueries);
+
+       List<Inquery> actualInqueries = inqueryService.getInqueriesByItemId(sampleItemId);
+
+       int expectedInqueriesSize = 2;
+       assertEquals(expectedInqueriesSize, actualInqueries.size());
+
+       assertEquals(expectedInqueries.size(), actualInqueries.size());
+       for (int i = 0; i < actualInqueries.size(); i++) {
+           assertEquals(expectedInqueries.get(i).getName(), actualInqueries.get(i).getName());
+           assertEquals(expectedInqueries.get(i).getEmail(), actualInqueries.get(i).getEmail());
+           assertEquals(expectedInqueries.get(i).getMessage(), actualInqueries.get(i).getMessage());
+           assertEquals(expectedInqueries.get(i).getItem().getId(), actualInqueries.get(i).getItem().getId());
+           assertEquals(expectedInqueries.get(i).getItem().getName(), actualInqueries.get(i).getItem().getName());
+       }
+    }
+
+    @Test
+    public void getInqueriesByItemId_NonExistingItemId() {
+        // This item id doesn't exist
+        Long nonExistingItemId = 100L;
+
+        when(inqueryRepositoryMock.findAllByItemId(nonExistingItemId)).thenReturn(Collections.emptyList());
+        // assert inquries with the item id don't exist
+        assertThrows(InqueryNotFoundException.class, () -> {
+            inqueryService.getInqueriesByItemId(nonExistingItemId);
+        });
+
+        verify(inqueryRepositoryMock).findAllByItemId(nonExistingItemId);
+    }
+
+    @Test
     public void testGetInquery_ExistingId() {
         //Initializing list of inqueries and get all of it
         List<Inquery> expectedInqueries = new ArrayList<>();
@@ -89,38 +132,5 @@ public class InqueryServiceTest {
         verify(inqueryRepositoryMock).findById(3L);
     }
 
-    @Test
-    public void testGetInqueryByItemId_Existing() {
-        // Create a mock Item object
-        Item item = new Item(1L, "Shoes", null, "This is a pair of shoes", null);
 
-        // Create a mock Inquery object with the Item object above
-        Inquery expectedInquery = new Inquery(1L, "Name1", "email1@example.com", "Message1", null, item);
-
-        // Mock behavior of the repository to return the expected Inquery object
-        when(inqueryRepositoryMock.findByItemId(1L)).thenReturn(Optional.of(expectedInquery));
-
-        // Call inqueryService.
-        Inquery actualInquery = inqueryService.getInqueryByItemId(1L);
-
-        // Verify response with item id
-        verify(inqueryRepositoryMock).findByItemId(1L);
-
-        // Assert that the returned Inquery object matches expected one
-        assertEquals(expectedInquery, actualInquery);
-    }
-
-    @Test
-    public void testGetInqueryByItemId_NonExisting() {
-        // Mock the behavior of the repository to return an empty optional
-        when(inqueryRepositoryMock.findByItemId(2L)).thenReturn(Optional.empty());
-
-        // Call the service and expect an exception
-        assertThrows(InqueryNotFoundException.class, () -> {
-            inqueryService.getInqueryByItemId(2L);
-        });
-
-        // Verify that the repository was called with the correct item ID
-        verify(inqueryRepositoryMock).findByItemId(2L);
-    }
 }

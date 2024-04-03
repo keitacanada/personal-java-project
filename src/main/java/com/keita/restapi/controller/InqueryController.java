@@ -31,6 +31,12 @@ public class InqueryController {
         return new ResponseEntity<>(inqueryService.getAllInqueries(), HttpStatus.OK);
     }
 
+    @GetMapping("/item/{itemId}")
+    public ResponseEntity<List<Inquery>> getInqueriesByItemId(@PathVariable Long itemId) {
+        // get all inqueries by item id
+        return new ResponseEntity<>(inqueryService.getInqueriesByItemId(itemId), HttpStatus.OK);
+    }
+
     @PostMapping("/item/{itemId}")
     public ResponseEntity<Inquery> createInquery(@Valid @RequestBody Inquery inquery, @PathVariable Long itemId) {
         // create a new Inquery with item id

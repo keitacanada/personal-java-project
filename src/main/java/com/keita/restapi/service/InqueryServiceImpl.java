@@ -42,13 +42,15 @@ public class InqueryServiceImpl implements InqueryService {
     }
 
     @Override
-    public Inquery getInqueryByItemId(Long itemId) {
+    public List<Inquery> getInqueriesByItemId(Long itemId) {
         // Get inquery object by item id. Create exception if it doesn't exist
-        Optional<Inquery> potentialInquery = inqueryRepository.findByItemId(itemId);
-        if (!potentialInquery.isPresent()) {
-            throw new InqueryNotFoundException("Inquery for item ID " + itemId + " isn't found");
+        List<Inquery> inqueries = inqueryRepository.findAllByItemId(itemId);
+
+        if(inqueries.isEmpty()) {
+            throw new InqueryNotFoundException("No inqueries found for item id: " + itemId);
         }
-        return potentialInquery.get();
+
+        return inqueries;
     }
 
     @Override

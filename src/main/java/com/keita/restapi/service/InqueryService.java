@@ -8,7 +8,7 @@ public interface InqueryService {
     //Inquery getInqueryById(Long inqueryId);
     List<Inquery> getAllInqueries();
     Inquery getInquery(Long inqueryId);
-    Inquery getInqueryByItemId(Long itemId);
+    List<Inquery> getInqueriesByItemId(Long itemId);
     Inquery saveInquery(Inquery inquery, Long itemId);
 
 }
