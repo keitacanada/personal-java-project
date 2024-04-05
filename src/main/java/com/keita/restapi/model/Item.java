@@ -33,7 +33,7 @@ public class Item {
     @NotBlank(message = "item name cannot be blank")
     private String name;
 
-    @Column(length = 10000000)
+    @Column(length = 50000000)
     private byte[] image;
     private String description;
 

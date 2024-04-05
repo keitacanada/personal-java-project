@@ -42,7 +42,8 @@ public class itemController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Item> createItem(@Valid @RequestPart("item") Item item,
+    public ResponseEntity<Item> createItem(
+            @Valid @RequestPart("item") Item item,
             @RequestPart(value = "image", required = false) MultipartFile imageFile) {
         // post an item with/without an image
         Item saveItem = itemService.createItemWithImage(item, imageFile);
@@ -50,10 +51,13 @@ public class itemController {
     }
 
 
-    @PutMapping("/{itemId}")
-    public ResponseEntity<Item> updateItem(@PathVariable Long itemId, @Valid @RequestBody Item item) {
+    @PutMapping(value = "/{itemId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Item> updateItem(
+            @PathVariable Long itemId,
+            @Valid @RequestPart("item") Item item,
+            @RequestPart(value = "image", required = false) MultipartFile imageFile) {
         // Update an item
-        return new ResponseEntity<>(itemService.updateItem(itemId, item), HttpStatus.OK);
+        return new ResponseEntity<>(itemService.updateItem(itemId, item, imageFile), HttpStatus.OK);
     }
 
     @DeleteMapping("/{itemId}")

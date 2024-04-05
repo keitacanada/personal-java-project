@@ -121,7 +121,7 @@ public class ItemServiceTest {
         when(itemRepositoryMock.findById(1L)).thenReturn(Optional.of(targetItem));
         when(itemRepositoryMock.save(targetItem)).thenReturn(targetItem);
 
-        Item updatedItem = itemService.updateItem(1L, targetItem);
+        Item updatedItem = itemService.updateItem(1L, targetItem, null);
 
         verify(itemRepositoryMock).findById(1L);
 
@@ -136,7 +136,7 @@ public class ItemServiceTest {
         when(itemRepositoryMock.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(ItemNotFoundException.class, () -> {
-            itemService.updateItem(1L, new Item());
+            itemService.updateItem(1L, new Item(), null);
         });
 
         verify(itemRepositoryMock).findById(1L);

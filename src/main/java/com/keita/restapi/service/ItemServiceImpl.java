@@ -41,30 +41,15 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item getItemByName(String name) {
         Optional<Item> potentialItem = itemRepository.findByName(name);
-    if (!potentialItem.isPresent()) {
-        throw new ItemNotFoundException("Item with name " + name + " isn't found");
-    }
-    return potentialItem.get();
-    }
+        if (!potentialItem.isPresent()) {
+            throw new ItemNotFoundException("Item with name " + name + " isn't found");
+        }
+        return potentialItem.get();
+        }
 
     @Override
     public Item saveItem(Item item) {
         return itemRepository.save(item);
-    }
-
-    @Override
-    public Item updateItem(Long itemId, Item updatedItem) {
-        Optional<Item> potentialItem = itemRepository.findById(itemId);
-        if (!potentialItem.isPresent()) {
-            throw new ItemNotFoundException("Item with ID " + itemId + " isn't found");
-        }
-
-        Item existingItem = potentialItem.get();
-        existingItem.setName(updatedItem.getName());
-        existingItem.setImage(updatedItem.getImage());
-        existingItem.setDescription(updatedItem.getDescription());
-
-        return itemRepository.save(existingItem);
     }
 
     @Override
@@ -92,6 +77,34 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
+    @Override
+    public Item updateItem(Long itemId, Item updatedItem, MultipartFile imageFile) {
+        Optional<Item> potentialItem = itemRepository.findById(itemId);
+        if (!potentialItem.isPresent()) {
+            throw new ItemNotFoundException("Item with ID " + itemId + " isn't found");
+        }
+
+        Item existingItem = potentialItem.get();
+        existingItem.setName(updatedItem.getName());
+        existingItem.setDescription(updatedItem.getDescription());
+
+        // Check if the updated item contains a non-null and non-empty image
+        try {
+            if(imageFile != null && !imageFile.isEmpty()) {
+                byte[] resizedImageBytes = resizeImage(imageFile.getBytes(), 100, 100);
+                existingItem.setImage(resizedImageBytes);
+            }
+            return itemRepository.save(existingItem);
+        } catch(IOException e) {
+            throw new PhotoFormatException("Failed to upload image: " + e.getMessage());
+        } catch (Exception e) {
+            // Handle other exceptions
+            throw new PhotoFormatException("Failed to create item: " + e.getMessage());
+        }
+    }
+
+
+
     private byte[] resizeImage(byte[] imageData, int width, int height) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -102,7 +115,4 @@ public class ItemServiceImpl implements ItemService {
 
         return outputStream.toByteArray();
     }
-
-
-
 }
