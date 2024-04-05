@@ -55,7 +55,7 @@ public class InqueryServiceTest {
     public void getInqueriesByItemId() {
        // create a sample item object
        Long sampleItemId = 1L;
-       Item sampleItem = new Item(sampleItemId, "Test item", "image", "This is description", null, null);
+       Item sampleItem = new Item(sampleItemId, "Test item", null, "This is description", null, null);
 
        // create list of inqueries
        List<Inquery> expectedInqueries = new ArrayList<>();

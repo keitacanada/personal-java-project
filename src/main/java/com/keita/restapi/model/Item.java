@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +33,8 @@ public class Item {
     @NotBlank(message = "item name cannot be blank")
     private String name;
 
-    private String image;
+    @Column(length = 10000000)
+    private byte[] image;
     private String description;
 
     @CreationTimestamp

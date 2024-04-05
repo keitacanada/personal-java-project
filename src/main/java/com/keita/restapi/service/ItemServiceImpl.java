@@ -1,12 +1,15 @@
 package com.keita.restapi.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.keita.restapi.exception.ItemNotFoundException;
+import com.keita.restapi.exception.PhotoFormatException;
 import com.keita.restapi.model.Item;
 import com.keita.restapi.repository.ItemRepository;
 
@@ -67,6 +70,21 @@ public class ItemServiceImpl implements ItemService {
             throw new ItemNotFoundException("Item with ID " + itemId + " isn't found");
         }
         itemRepository.deleteById(itemId);
+    }
+
+    @Override
+    public Item createItemWithImage(Item item, MultipartFile imageFile) {
+        try {
+            if(imageFile != null) {
+                item.setImage(imageFile.getBytes());
+            }
+            return itemRepository.save(item);
+        } catch(IOException e) {
+            throw new PhotoFormatException("Failed to upload image: " + e.getMessage());
+        } catch (Exception e) {
+            // Handle other exceptions
+            throw new PhotoFormatException("Failed to create item: " + e.getMessage());
+        }
     }
 
 

@@ -2,6 +2,8 @@ package com.keita.restapi.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.keita.restapi.model.Item;
 
 public interface ItemService {
@@ -11,4 +13,5 @@ public interface ItemService {
     Item saveItem(Item item);
     Item updateItem(Long itemId, Item updatedItem);
     void deleteItem(Long itemId);
+    Item createItemWithImage(Item item, MultipartFile imageFile);
 }
