@@ -1,7 +1,5 @@
 package com.keita.restapi.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.keita.restapi.exception.PhotoFormatException;
 import com.keita.restapi.model.Item;
 import com.keita.restapi.service.ItemService;
 
@@ -46,7 +43,7 @@ public class itemController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Item> createItem(@Valid @RequestPart("item") Item item,
-            @RequestPart("image") MultipartFile imageFile) {
+            @RequestPart(value = "image", required = false) MultipartFile imageFile) {
         // post an item with/without an image
         Item saveItem = itemService.createItemWithImage(item, imageFile);
         return new ResponseEntity<>(saveItem, HttpStatus.CREATED);

@@ -1,5 +1,7 @@
 package com.keita.restapi.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,8 @@ import com.keita.restapi.exception.ItemNotFoundException;
 import com.keita.restapi.exception.PhotoFormatException;
 import com.keita.restapi.model.Item;
 import com.keita.restapi.repository.ItemRepository;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -75,8 +79,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item createItemWithImage(Item item, MultipartFile imageFile) {
         try {
-            if(imageFile != null) {
-                item.setImage(imageFile.getBytes());
+            if(imageFile != null && !imageFile.isEmpty()) {
+                byte[] resizedImageBytes = resizeImage(imageFile.getBytes(), 100, 100);
+                item.setImage(resizedImageBytes);
             }
             return itemRepository.save(item);
         } catch(IOException e) {
@@ -85,6 +90,17 @@ public class ItemServiceImpl implements ItemService {
             // Handle other exceptions
             throw new PhotoFormatException("Failed to create item: " + e.getMessage());
         }
+    }
+
+    private byte[] resizeImage(byte[] imageData, int width, int height) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        Thumbnails.of(new ByteArrayInputStream(imageData))
+            .size(width, height)
+            .outputFormat("jpg")
+            .toOutputStream(outputStream);
+
+        return outputStream.toByteArray();
     }
 
 
