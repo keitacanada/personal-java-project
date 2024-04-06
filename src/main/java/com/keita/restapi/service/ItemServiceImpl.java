@@ -70,17 +70,19 @@ public class ItemServiceImpl implements ItemService {
             }
             return itemRepository.save(item);
         } catch(IOException e) {
-            throw new PhotoFormatException("Failed to upload image: " + e.getMessage());
+            throw new PhotoFormatException("Failed to upload image: " + e.getMessage(), e);
         } catch (Exception e) {
             // Handle other exceptions
-            throw new PhotoFormatException("Failed to create item: " + e.getMessage());
+            throw new PhotoFormatException("Failed to create item: " + e.getMessage(), e);
         }
     }
 
     @Override
     public Item updateItem(Long itemId, Item updatedItem, MultipartFile imageFile) {
+        // Find the item by itemId
         Optional<Item> potentialItem = itemRepository.findById(itemId);
         if (!potentialItem.isPresent()) {
+            // throw ItemNotFoundException if item is not found
             throw new ItemNotFoundException("Item with ID " + itemId + " isn't found");
         }
 
@@ -91,21 +93,23 @@ public class ItemServiceImpl implements ItemService {
         // Check if the updated item contains a non-null and non-empty image
         try {
             if(imageFile != null && !imageFile.isEmpty()) {
+                // Resize the image and set it to the existing item
                 byte[] resizedImageBytes = resizeImage(imageFile.getBytes(), 100, 100);
                 existingItem.setImage(resizedImageBytes);
             }
             return itemRepository.save(existingItem);
         } catch(IOException e) {
-            throw new PhotoFormatException("Failed to upload image: " + e.getMessage());
+            throw new PhotoFormatException("Failed to upload image: " + e.getMessage(), e);
         } catch (Exception e) {
             // Handle other exceptions
-            throw new PhotoFormatException("Failed to create item: " + e.getMessage());
+            throw new PhotoFormatException("Failed to create item: " + e.getMessage(), e);
         }
     }
 
 
 
     private byte[] resizeImage(byte[] imageData, int width, int height) throws IOException {
+        // Resize the imageData
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         Thumbnails.of(new ByteArrayInputStream(imageData))
