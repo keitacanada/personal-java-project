@@ -1,4 +1,4 @@
-package com.keita.restapi.service;
+package com.keita.restapi.item;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,11 +9,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.keita.restapi.exception.ItemNotFoundException;
-import com.keita.restapi.exception.PhotoFormatException;
-import com.keita.restapi.model.Item;
-import com.keita.restapi.repository.ItemRepository;
 
 import net.coobird.thumbnailator.Thumbnails;
 

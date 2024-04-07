@@ -1,4 +1,4 @@
-package com.keita.restapi.controller;
+package com.keita.restapi.inquery;
 
 import java.util.List;
 
@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.keita.restapi.model.Inquery;
-import com.keita.restapi.service.InqueryService;
 
 import jakarta.validation.Valid;
 

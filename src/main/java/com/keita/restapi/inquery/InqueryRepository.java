@@ -1,11 +1,9 @@
-package com.keita.restapi.repository;
+package com.keita.restapi.inquery;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.keita.restapi.model.Inquery;
 
 public interface InqueryRepository extends CrudRepository<Inquery, Long> {
     Optional<Inquery> findById(Long inqueryId);

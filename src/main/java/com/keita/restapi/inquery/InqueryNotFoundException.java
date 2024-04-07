@@ -1,4 +1,4 @@
-package com.keita.restapi.exception;
+package com.keita.restapi.inquery;
 
 public class InqueryNotFoundException extends RuntimeException {
 

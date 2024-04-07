@@ -1,4 +1,4 @@
-package com.keita.restapi.exception;
+package com.keita.restapi.item;
 
 public class PhotoFormatException extends RuntimeException{
     public PhotoFormatException(String message) {

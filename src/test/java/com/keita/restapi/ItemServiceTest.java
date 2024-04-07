@@ -16,10 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.keita.restapi.exception.ItemNotFoundException;
-import com.keita.restapi.model.Item;
-import com.keita.restapi.repository.ItemRepository;
-import com.keita.restapi.service.ItemServiceImpl;
+import com.keita.restapi.item.Item;
+import com.keita.restapi.item.ItemNotFoundException;
+import com.keita.restapi.item.ItemRepository;
+import com.keita.restapi.item.ItemServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceTest {

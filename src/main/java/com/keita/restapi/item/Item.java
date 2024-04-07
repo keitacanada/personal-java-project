@@ -1,4 +1,4 @@
-package com.keita.restapi.model;
+package com.keita.restapi.item;
 
 import java.util.Date;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.keita.restapi.inquery.Inquery;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

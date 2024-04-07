@@ -1,4 +1,4 @@
-package com.keita.restapi.service;
+package com.keita.restapi.inquery;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,12 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.keita.restapi.exception.InqueryNotFoundException;
-import com.keita.restapi.exception.ItemNotFoundException;
-import com.keita.restapi.model.Inquery;
-import com.keita.restapi.model.Item;
-import com.keita.restapi.repository.InqueryRepository;
-import com.keita.restapi.repository.ItemRepository;
+import com.keita.restapi.item.Item;
+import com.keita.restapi.item.ItemNotFoundException;
+import com.keita.restapi.item.ItemRepository;
 
 @Service
 public class InqueryServiceImpl implements InqueryService {

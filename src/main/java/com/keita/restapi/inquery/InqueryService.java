@@ -1,8 +1,6 @@
-package com.keita.restapi.service;
+package com.keita.restapi.inquery;
 
 import java.util.List;
-
-import com.keita.restapi.model.Inquery;
 
 public interface InqueryService {
     //Inquery getInqueryById(Long inqueryId);

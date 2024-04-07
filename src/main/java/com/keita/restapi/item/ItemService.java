@@ -1,10 +1,8 @@
-package com.keita.restapi.service;
+package com.keita.restapi.item;
 
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
-
-import com.keita.restapi.model.Item;
 
 public interface ItemService {
     Item getItem(Long itemId);

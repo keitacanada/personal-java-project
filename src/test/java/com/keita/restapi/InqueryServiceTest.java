@@ -16,11 +16,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.keita.restapi.exception.InqueryNotFoundException;
-import com.keita.restapi.model.Inquery;
-import com.keita.restapi.model.Item;
-import com.keita.restapi.repository.InqueryRepository;
-import com.keita.restapi.service.InqueryServiceImpl;
+import com.keita.restapi.inquery.Inquery;
+import com.keita.restapi.inquery.InqueryNotFoundException;
+import com.keita.restapi.inquery.InqueryRepository;
+import com.keita.restapi.inquery.InqueryServiceImpl;
+import com.keita.restapi.item.Item;
 
 @ExtendWith(MockitoExtension.class)
 public class InqueryServiceTest {

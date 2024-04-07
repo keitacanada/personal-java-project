@@ -1,10 +1,11 @@
-package com.keita.restapi.model;
+package com.keita.restapi.inquery;
 
 import java.util.Date;
-import java.util.Optional;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.keita.restapi.item.Item;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
