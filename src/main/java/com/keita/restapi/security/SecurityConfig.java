@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.keita.restapi.user.Permission;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -29,7 +31,13 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/user/autheticate").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/user/register").permitAll();
                     auth.requestMatchers("/error").permitAll();
+
+                    auth.requestMatchers(HttpMethod.GET, "/item/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/item/**").hasAuthority(Permission.SAVE_ITEMS.name());
+
+                    auth.anyRequest().denyAll();
                 });
+
 
         return http.build();
     }
