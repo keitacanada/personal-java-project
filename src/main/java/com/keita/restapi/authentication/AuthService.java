@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.keita.restapi.security.JwtService;
@@ -23,6 +24,40 @@ public class AuthService {
 
     @Autowired
     private JwtService jwtService;
+
+    private final PasswordEncoder passwordEncoder;
+
+
+    public AuthService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    /**
+     * Method to register a user.
+     *
+     * @param User Request containing all User fields.
+     * @return Response containing Token.
+    */
+
+
+    public AuthResponse register(User requestUser) {
+        // Create a new user entity based on the provided request
+        var user = new User();
+        user.setUsername(requestUser.getUsername());
+        user.setEmail(requestUser.getEmail());
+        // Encrypt the user's password before setting
+        user.setPassword(passwordEncoder.encode(requestUser.getPassword()));
+        user.setRole(requestUser.getRole());
+
+        userRepository.save(user);
+        String token = jwtService.generateToken(user, generateClaims(user));
+
+        return new AuthResponse(token);
+
+    }
+
+
+
 
     /**
      * Method to authenticate user login and generate JWT Token.
