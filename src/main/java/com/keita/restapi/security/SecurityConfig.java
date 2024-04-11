@@ -33,8 +33,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests( auth -> {
-                    auth.requestMatchers(HttpMethod.POST, "/user/autheticate").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/user/register").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/user/**").permitAll();
                     auth.requestMatchers("/error").permitAll();
 
                     auth.requestMatchers(HttpMethod.GET, "/item/**").permitAll();
