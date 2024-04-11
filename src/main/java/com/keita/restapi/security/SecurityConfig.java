@@ -28,16 +28,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //
         http
+                // Disable Cross-Site Request Forgery protection
                 .csrf(csrfConfig -> csrfConfig.disable())
+                // Set session management to STATELESS to make sure no sessions are created
                 .sessionManagement(sessionManageConfig -> sessionManageConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Configure authentication provider and JWT filter
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                // Configure URL-based authorization
                 .authorizeHttpRequests( auth -> {
                     auth.requestMatchers(HttpMethod.POST, "/user/**").permitAll();
                     auth.requestMatchers("/error").permitAll();
 
                     auth.requestMatchers(HttpMethod.GET, "/item/**").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/item/**").hasAuthority(Permission.SAVE_ITEMS.name());
+
+                    auth.requestMatchers(HttpMethod.POST, "/inquery/**").hasAuthority(Permission.READ_ITEMS.name());
 
                     auth.anyRequest().denyAll();
                 });

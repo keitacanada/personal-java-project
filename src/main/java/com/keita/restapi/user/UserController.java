@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.keita.restapi.authentication.AuthRequest;
 import com.keita.restapi.authentication.AuthResponse;
 import com.keita.restapi.authentication.AuthService;
-import com.keita.restapi.inquery.Inquery;
 
 import jakarta.validation.Valid;
 
