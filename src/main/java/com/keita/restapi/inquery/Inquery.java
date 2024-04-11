@@ -6,12 +6,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.keita.restapi.item.Item;
+import com.keita.restapi.user.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,13 +33,6 @@ public class Inquery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Your name cannot be blank")
-    @Size(min=4, max=20, message="Name should be 4 to 20 characters")
-    private String name;
-
-    @Email
-    private String email;
-
     private String message;
 
     @CreationTimestamp
@@ -47,4 +42,8 @@ public class Inquery {
     @ManyToOne
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item item;
+
+    @OneToMany
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

@@ -21,6 +21,8 @@ import com.keita.restapi.inquery.InqueryNotFoundException;
 import com.keita.restapi.inquery.InqueryRepository;
 import com.keita.restapi.inquery.InqueryServiceImpl;
 import com.keita.restapi.item.Item;
+import com.keita.restapi.user.Role;
+import com.keita.restapi.user.User;
 
 @ExtendWith(MockitoExtension.class)
 public class InqueryServiceTest {
@@ -37,8 +39,8 @@ public class InqueryServiceTest {
     public void testGetAllInqueries() {
         //Initializing list of inqueries and get all of it
         List<Inquery> expectedInqueries = new ArrayList<>();
-        expectedInqueries.add(new Inquery(1L, "Name1", "email1@example.com", "Message1", null, null));
-        expectedInqueries.add(new Inquery(2L, "Name2", "email2@example.com", "Message2", null, null));
+        expectedInqueries.add(new Inquery(1L, "Message1", null, null, null));
+        expectedInqueries.add(new Inquery(2L, "Message2", null, null, null));
 
         when(inqueryRepositoryMock.findAll()).thenReturn(expectedInqueries);
 
@@ -57,10 +59,14 @@ public class InqueryServiceTest {
        Long sampleItemId = 1L;
        Item sampleItem = new Item(sampleItemId, "Test item", null, "This is description", null, null);
 
+       // create 2 sample users;
+       User sampleUser1 = createUser(1L, "user1", "user1@example.com", "password", "USER");
+       User sampleUser2 = createUser(2L, "user2", "user2@example.com", "password", "USER");
+
        // create list of inqueries
        List<Inquery> expectedInqueries = new ArrayList<>();
-       expectedInqueries.add(new Inquery(1L, "Name1", "email1@example.com", "Message1", null, sampleItem));
-       expectedInqueries.add(new Inquery(2L, "Name2", "email2@example.com", "Message2", null, sampleItem));
+       expectedInqueries.add(new Inquery(1L, "Message1", null, sampleItem, sampleUser1));
+       expectedInqueries.add(new Inquery(1L, "Message1", null, sampleItem, sampleUser2));
 
        when(inqueryRepositoryMock.findAllByItemId(sampleItemId)).thenReturn(expectedInqueries);
 
@@ -71,12 +77,35 @@ public class InqueryServiceTest {
 
        assertEquals(expectedInqueries.size(), actualInqueries.size());
        for (int i = 0; i < actualInqueries.size(); i++) {
-           assertEquals(expectedInqueries.get(i).getName(), actualInqueries.get(i).getName());
-           assertEquals(expectedInqueries.get(i).getEmail(), actualInqueries.get(i).getEmail());
+           assertEquals(expectedInqueries.get(i).getMessage(), actualInqueries.get(i).getMessage());
            assertEquals(expectedInqueries.get(i).getMessage(), actualInqueries.get(i).getMessage());
            assertEquals(expectedInqueries.get(i).getItem().getId(), actualInqueries.get(i).getItem().getId());
            assertEquals(expectedInqueries.get(i).getItem().getName(), actualInqueries.get(i).getItem().getName());
+           assertEquals(expectedInqueries.get(i).getUser().getId(), actualInqueries.get(i).getUser().getId());
+           assertEquals(expectedInqueries.get(i).getUser().getUsername(), actualInqueries.get(i).getUser().getUsername());
        }
+    }
+
+    /**
+     * Method to create a sample user
+     *
+     * @param id
+     * @param username
+     * @param email
+     * @param password
+     * @param role
+     * @return User object
+    */
+
+    private User createUser(Long id, String username, String email, String password, String role) {
+        User user = new User();
+        user.setId(id);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole(Role.valueOf(role));
+
+        return user;
     }
 
     @Test
@@ -97,8 +126,8 @@ public class InqueryServiceTest {
     public void testGetInquery_ExistingId() {
         //Initializing list of inqueries and get all of it
         List<Inquery> expectedInqueries = new ArrayList<>();
-        expectedInqueries.add(new Inquery(1L, "Name1", "email1@example.com", "Message1", null, null));
-        expectedInqueries.add(new Inquery(2L, "Name2", "email2@example.com", "Message2", null, null));
+        expectedInqueries.add(new Inquery(1L, "Message1", null, null, null));
+        expectedInqueries.add(new Inquery(2L, "Message2", null, null, null));
 
         Inquery expectedInquery = expectedInqueries.get(0);
         when(inqueryRepositoryMock.findById(1L)).thenReturn(Optional.of(expectedInquery));
@@ -117,8 +146,8 @@ public class InqueryServiceTest {
     public void testGetInquery_NonExistingId() {
         //Creating mock Inquery objects
         List<Inquery> expectedInqueries = new ArrayList<>();
-        expectedInqueries.add(new Inquery(1L, "Name1", "email1@example.com", "Message1", null, null));
-        expectedInqueries.add(new Inquery(2L, "Name2", "email2@example.com", "Message2", null, null));
+        expectedInqueries.add(new Inquery(1L, "Message1", null, null, null));
+        expectedInqueries.add(new Inquery(2L, "Message2", null, null, null));
 
         // call non-existing id inquery object
         when(inqueryRepositoryMock.findById(3L)).thenReturn(Optional.empty());
