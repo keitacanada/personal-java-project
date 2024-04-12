@@ -7,6 +7,6 @@ public interface InqueryService {
     List<Inquery> getAllInqueries();
     Inquery getInquery(Long inqueryId);
     List<Inquery> getInqueriesByItemId(Long itemId);
-    Inquery saveInquery(Inquery inquery, Long itemId);
+    Inquery saveInquery(Inquery inquery, Long itemId, String user);
 
 }
