@@ -8,4 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface InqueryRepository extends CrudRepository<Inquery, Long> {
     Optional<Inquery> findById(Long inqueryId);
     List<Inquery> findAllByItemId(Long itemId);
+    Optional<Inquery> findByItemIdAndUserId(Long itemId, Long userId);
 }

@@ -13,6 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +26,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "inquery", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"user_id", "item_id"})
+})
 public class Inquery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

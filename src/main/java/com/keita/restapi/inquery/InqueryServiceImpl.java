@@ -1,7 +1,6 @@
 package com.keita.restapi.inquery;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,6 +78,7 @@ public class InqueryServiceImpl implements InqueryService {
      * @return The saved inquiry.
      * @throws ItemNotFoundException    If no item is found with the given item ID.
      * @throws RuntimeException        If the user with the given username is not found.
+     * @throws RuntimeException       If the user sends an inquery for the same item.
      */
     @Override
     public Inquery saveInquery(Inquery inquery, Long itemId, String username) {
@@ -89,6 +89,12 @@ public class InqueryServiceImpl implements InqueryService {
         //  Retrieve user from the database using the username
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User : " + username + " not found"));
+
+        inqueryRepository.findByItemIdAndUserId(itemId, user.getId())
+                .ifPresent(existingInquery -> {
+                    throw new RuntimeException("User : " + user.getId()
+                    + " has already send an inquery for the item : " + itemId);
+                });
 
         inquery.setUser(user);
         inquery.setItem(targetItem);
