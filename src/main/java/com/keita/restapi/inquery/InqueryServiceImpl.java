@@ -39,6 +39,24 @@ public class InqueryServiceImpl implements InqueryService {
     }
 
     /**
+     * Retrieves all inquiries associated with a specific item ID.
+     *
+     * @param itemId The ID of the item to retrieve inquiries for.
+     * @return A list of inquiries associated with the specified item ID.
+     * @throws InqueryNotFoundException If no inquiries are found for the given item ID.
+     */
+    @Override
+    public List<Inquery> getInqueriesByItemId(Long itemId) {
+        List<Inquery> inqueries = inqueryRepository.findAllByItemId(itemId);
+
+        if(inqueries.isEmpty()) {
+            throw new InqueryNotFoundException("No inqueries found for item id: " + itemId);
+        }
+
+        return inqueries;
+    }
+
+    /**
      * Retrieves an inquiry by its ID.
      *
      * @param inqueryId The ID of the inquiry to retrieve.
@@ -48,32 +66,8 @@ public class InqueryServiceImpl implements InqueryService {
     @Override
     public Inquery getInquery(Long inqueryId) {
         // get inquery object by id. Create exception if it doesn't exist
-        Optional<Inquery> potentialInquery = inqueryRepository.findById(inqueryId);
-
-        if(!potentialInquery.isPresent()) {
-            throw new InqueryNotFoundException("Inquery with ID " + inqueryId + " isn't found");
-        }
-
-        return potentialInquery.get();
-    }
-
-    /**
-     * Retrieves all inquiries associated with a specific item ID.
-     *
-     * @param itemId The ID of the item to retrieve inquiries for.
-     * @return A list of inquiries associated with the specified item ID.
-     * @throws InqueryNotFoundException If no inquiries are found for the given item ID.
-     */
-    @Override
-    public List<Inquery> getInqueriesByItemId(Long itemId) {
-        // Get inquery object by item id. Create exception if it doesn't exist
-        List<Inquery> inqueries = inqueryRepository.findAllByItemId(itemId);
-
-        if(inqueries.isEmpty()) {
-            throw new InqueryNotFoundException("No inqueries found for item id: " + itemId);
-        }
-
-        return inqueries;
+        return inqueryRepository.findById(inqueryId)
+                    .orElseThrow(() -> new InqueryNotFoundException("Inquiry with ID " + inqueryId + " isn't found"));
     }
 
     /**
@@ -88,17 +82,19 @@ public class InqueryServiceImpl implements InqueryService {
      */
     @Override
     public Inquery saveInquery(Inquery inquery, Long itemId, String username) {
-        Optional<Item> targetItem = itemRepository.findById(itemId);
-        if(!targetItem.isPresent()) {
-            throw new ItemNotFoundException("Item with id: " + itemId + " isn't found");
-        }
+        Item targetItem = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ItemNotFoundException("Item with id: " + itemId + " isn't found"));
+
 
         //  Retrieve user from the database using the username
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User : " + username + " not found"));
 
         inquery.setUser(user);
-        inquery.setItem(targetItem.get());
+        inquery.setItem(targetItem);
         return inqueryRepository.save(inquery);
     }
+
+
+
 }
