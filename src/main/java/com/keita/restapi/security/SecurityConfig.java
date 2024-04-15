@@ -42,9 +42,10 @@ public class SecurityConfig {
 
                     auth.requestMatchers(HttpMethod.GET, "/item/**").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/item/**").hasAuthority(Permission.SAVE_ITEMS.name());
+                    auth.requestMatchers(HttpMethod.PUT, "/item/**").hasAuthority(Permission.SAVE_ITEMS.name());
 
-                    auth.requestMatchers(HttpMethod.GET, "/inquery/**").hasAuthority(Permission.SAVE_ITEMS.name());
-                    auth.requestMatchers(HttpMethod.POST, "/inquery/**").hasAuthority(Permission.READ_ITEMS.name());
+                    auth.requestMatchers(HttpMethod.GET, "/inquiry/**").hasAuthority(Permission.SAVE_ITEMS.name());
+                    auth.requestMatchers(HttpMethod.POST, "/inquiry/**").hasAuthority(Permission.READ_ITEMS.name());
 
                     auth.anyRequest().denyAll();
                 });

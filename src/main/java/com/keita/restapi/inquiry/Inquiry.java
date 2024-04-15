@@ -1,4 +1,4 @@
-package com.keita.restapi.inquery;
+package com.keita.restapi.inquiry;
 
 import java.util.Date;
 
@@ -26,10 +26,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "inquery", uniqueConstraints = {
+@Table(name = "inquiry", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"user_id", "item_id"})
 })
-public class Inquery {
+public class Inquiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,4 +1,4 @@
-package com.keita.restapi.inquery;
+package com.keita.restapi.inquiry;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ import com.keita.restapi.user.UserRepository;
  * Service implementation for managing inquiries.
  */
 @Service
-public class InqueryServiceImpl implements InqueryService {
+public class InquiryServiceImpl implements InquiryService {
 
     @Autowired
-    private InqueryRepository inqueryRepository;
+    private InquiryRepository inquiryRepository;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -34,9 +34,9 @@ public class InqueryServiceImpl implements InqueryService {
      * @return A list of all inquiries.
      */
     @Override
-    public List<Inquery> getAllInqueries() {
-        // get all Inquery objeccts
-        return (List<Inquery>) inqueryRepository.findAll();
+    public List<Inquiry> getAllInquiries() {
+        // get all Inquiry objeccts
+        return (List<Inquiry>) inquiryRepository.findAll();
     }
 
     /**
@@ -44,45 +44,45 @@ public class InqueryServiceImpl implements InqueryService {
      *
      * @param itemId The ID of the item to retrieve inquiries for.
      * @return A list of inquiries associated with the specified item ID.
-     * @throws InqueryNotFoundException If no inquiries are found for the given item ID.
+     * @throws InquiryNotFoundException If no inquiries are found for the given item ID.
      */
     @Override
-    public List<Inquery> getInqueriesByItemId(Long itemId) {
-        List<Inquery> inqueries = inqueryRepository.findAllByItemId(itemId);
+    public List<Inquiry> getInquiriesByItemId(Long itemId) {
+        List<Inquiry> inquiries = inquiryRepository.findAllByItemId(itemId);
 
-        if(inqueries.isEmpty()) {
-            throw new InqueryNotFoundException("No inqueries found for item id: " + itemId);
+        if(inquiries.isEmpty()) {
+            throw new InquiryNotFoundException("No inquiries found for item id: " + itemId);
         }
 
-        return inqueries;
+        return inquiries;
     }
 
     /**
      * Retrieves an inquiry by its ID.
      *
-     * @param inqueryId The ID of the inquiry to retrieve.
+     * @param inquiryId The ID of the inquiry to retrieve.
      * @return The inquiry with the specified ID.
-     * @throws InqueryNotFoundException If no inquiry is found with the given ID.
+     * @throws InquiryNotFoundException If no inquiry is found with the given ID.
      */
     @Override
-    public Inquery getInquery(Long inqueryId) {
-        // get inquery object by id. Create exception if it doesn't exist
-        return inqueryRepository.findById(inqueryId)
-                    .orElseThrow(() -> new InqueryNotFoundException("Inquiry with ID " + inqueryId + " isn't found"));
+    public Inquiry getInquiry(Long inquiryId) {
+        // get inquiry object by id. Create exception if it doesn't exist
+        return inquiryRepository.findById(inquiryId)
+                    .orElseThrow(() -> new InquiryNotFoundException("Inquiry with ID " + inquiryId + " isn't found"));
     }
 
     /**
      * Saves a new inquiry to the database, associating it with the specified item ID and user.
      *
-     * @param inquery  The inquiry to save.
+     * @param inquiry  The inquiry to save.
      * @param itemId   The ID of the item associated with the inquiry.
      * @return The saved inquiry.
      * @throws ItemNotFoundException    If no item is found with the given item ID.
      * @throws RuntimeException        If the user with the given username is not found.
-     * @throws RuntimeException       If the user sends an inquery for the same item.
+     * @throws RuntimeException       If the user sends an inquiry for the same item.
      */
     @Override
-    public Inquery saveInquery(Inquery inquery, Long itemId) {
+    public Inquiry saveInquiry(Inquiry inquiry, Long itemId) {
         //Retrieve the principal
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -95,15 +95,15 @@ public class InqueryServiceImpl implements InqueryService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User : " + username + " not found"));
 
-        inqueryRepository.findByItemIdAndUserId(itemId, user.getId())
-                .ifPresent(existingInquery -> {
+        inquiryRepository.findByItemIdAndUserId(itemId, user.getId())
+                .ifPresent(existingInquiry -> {
                     throw new RuntimeException("User : " + user.getId()
-                    + " has already send an inquery for the item : " + itemId);
+                    + " has already send an inquiry for the item : " + itemId);
                 });
 
-        inquery.setUser(user);
-        inquery.setItem(targetItem);
-        return inqueryRepository.save(inquery);
+        inquiry.setUser(user);
+        inquiry.setItem(targetItem);
+        return inquiryRepository.save(inquiry);
     }
 
 

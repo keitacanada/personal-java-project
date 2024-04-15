@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.keita.restapi.inquery.Inquery;
+import com.keita.restapi.inquiry.Inquiry;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,6 +44,6 @@ public class Item {
 
     @JsonIgnore
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<Inquery> inqueries;
+    private List<Inquiry> inquiries;
 
 }
