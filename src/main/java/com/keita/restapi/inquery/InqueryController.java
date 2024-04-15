@@ -61,8 +61,6 @@ public class InqueryController {
      */
     @PostMapping("/item/{itemId}")
     public ResponseEntity<Inquery> createInquery(@Valid @RequestBody Inquery inquery, @PathVariable Long itemId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        return new ResponseEntity<>(inqueryService.saveInquery(inquery, itemId, username), HttpStatus.CREATED);
+        return new ResponseEntity<>(inqueryService.saveInquery(inquery, itemId), HttpStatus.CREATED);
     }
 }

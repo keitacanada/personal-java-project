@@ -3,6 +3,8 @@ package com.keita.restapi.inquery;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.keita.restapi.item.Item;
@@ -74,14 +76,17 @@ public class InqueryServiceImpl implements InqueryService {
      *
      * @param inquery  The inquiry to save.
      * @param itemId   The ID of the item associated with the inquiry.
-     * @param username The username of the user associated with the inquiry.
      * @return The saved inquiry.
      * @throws ItemNotFoundException    If no item is found with the given item ID.
      * @throws RuntimeException        If the user with the given username is not found.
      * @throws RuntimeException       If the user sends an inquery for the same item.
      */
     @Override
-    public Inquery saveInquery(Inquery inquery, Long itemId, String username) {
+    public Inquery saveInquery(Inquery inquery, Long itemId) {
+        //Retrieve the principal
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
         Item targetItem = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ItemNotFoundException("Item with id: " + itemId + " isn't found"));
 
