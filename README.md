@@ -1,13 +1,12 @@
 # personal-java-project
 
+My Personal Project is a REST API where I, as the admin, am authorized to upload my used items to sell. Users can send inquiries for items upon login.
+
 ## Table of Contents
 
 - [Technologies](#technologies)
 - [Usage](#usage)
 - [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
-
-
-My Personal Project is a REST API where I, as the admin, am authorized to upload my used items to sell. Users can send inquiries for items upon login.
 
 ## Technologies
 
