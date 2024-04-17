@@ -10,16 +10,18 @@ My Personal Project is a REST API where I, as the admin, am authorized to upload
 
 ## Technologies
 
-- Spring Boot 3.2.4
-- Java 17
-- Spring Security 6.2.3
-- JSON Web Tokens (JWT)
-- MySQL
-- Postman
-- Git
-- GitHub
-- Mockito
-- Thumbnailator
+- **Spring Boot 3.2.4**: Framework
+- **Java 17**: Language
+- **Spring Security 6.2.3**: Authentication and Autorization
+- **VS Code**: IDE
+- **Hibernate**: Default ORM Framework
+- **Maven**: Dependency Management Tool
+- **JSON Web Tokens (JWT)**: Authentication Token
+- **MySQL**: Primary database
+- **Postman**: Mannual Testing Tool
+- **Git&GitHub**: Version Control Tool
+- **Mockito**: Mocking Testing Framework
+- **Thumbnailator**: Image Resizing Library
 
 ## Usage
 
