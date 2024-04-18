@@ -39,3 +39,7 @@ My Personal Project is a REST API where I, as the admin, am authorized to upload
 
 ## Entity-Relationship Diagram (ERD)
 ![ERD](/ERD.png)
+
+
+## Future Plan
+   - Split the app into microservices (User sign up&Login, item uploading, inquiry)
